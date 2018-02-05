@@ -1,0 +1,65 @@
+<!doctype html>
+<html lang="en">
+<head>
+	<meta charset="utf-8">
+	<title>jQuery UI Example Page</title>
+	<link href="jquery-ui.css" rel="stylesheet">
+	<!-- Latest compiled and minified CSS -->
+	<link rel="stylesheet" href="//netdna.bootstrapcdn.com/bootstrap/3.3.2/css/bootstrap.min.css">
+	<!-- Optional theme -->
+	<link rel="stylesheet" href="//netdna.bootstrapcdn.com/bootstrap/3.3.2/css/bootstrap-theme.min.css">
+	<link href="css/style.css" rel="stylesheet">
+
+	<!-- Latest compiled and minified JavaScript -->
+	<script src="//netdna.bootstrapcdn.com/bootstrap/3.3.2/js/bootstrap.min.js"></script>
+</head>
+<body>
+
+<div class="container">
+	<div class="row">
+		<div class="col-md-6 in" style="border: 2px solid #808080">
+			<div class="build-data">
+				<form>
+					<div class="build-div">DIV</div>
+
+				</form>
+			</div>
+		</div>
+		<div class="col-md-6 out" id="droppable" style="border: 2px solid #808080">
+
+		</div>
+	</div>
+
+</div>
+
+
+
+<script src="external/jquery/jquery.js"></script>
+<script src="jquery-ui.js"></script>
+
+<script>
+	$(document).ready(function(){
+
+		$( ".build-div" ).draggable({
+			revert: true,
+			helper: "clone"
+		});
+
+		$("#droppable").droppable({
+			//accept:"#draggable",
+			activeClass:"ui-state-hover",
+			drop:function(event, ui){
+				$(this).html('<div class="build-main"></div>');
+				$(".build-main").resizable({
+					containment: $(this)
+				});
+
+				console.log(event);
+				console.log(ui);
+			}
+		});
+
+	});
+</script>
+</body>
+</html>
