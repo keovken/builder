@@ -8,10 +8,13 @@
 	<link rel="stylesheet" href="//netdna.bootstrapcdn.com/bootstrap/3.3.2/css/bootstrap.min.css">
 	<!-- Optional theme -->
 	<link rel="stylesheet" href="//netdna.bootstrapcdn.com/bootstrap/3.3.2/css/bootstrap-theme.min.css">
+	
+	<link rel="stylesheet" href="colorpicker/css/colorpicker.css" type="text/css" />
+	
+    <link rel="stylesheet" media="screen" type="text/css" href="colorpicker/css/layout.css" />
 	<link href="css/style.css" rel="stylesheet">
 
-	<!-- Latest compiled and minified JavaScript -->
-	<script src="//netdna.bootstrapcdn.com/bootstrap/3.3.2/js/bootstrap.min.js"></script>
+	
 </head>
 <body>
 
@@ -20,7 +23,10 @@
 		<div class="col-md-6 in" style="border: 2px solid #808080">
 			<div class="build-data">
 				<form>
-					<div class="build-div">DIV</div>
+					<div class="build-div" style="z-index: 99;">DIV</div>
+					<div class="build-border"></div>
+					<div id="colorSelector"><div style="background-color: #0000ff"></div></div>
+					<div class="build-text">TEXT: <textarea type="text" name="text"></textarea> <button id="build-text" onclick="getText(); return false;">Go!</button></div><br />
 
 				</form>
 			</div>
@@ -29,6 +35,8 @@
 
 		</div>
 	</div>
+	<button id="parse">PARSE</button>
+	<div class="result"></div>
 
 </div>
 
@@ -36,10 +44,16 @@
 
 <script src="external/jquery/jquery.js"></script>
 <script src="jquery-ui.js"></script>
+<!-- Latest compiled and minified JavaScript -->
+	<script src="//netdna.bootstrapcdn.com/bootstrap/3.3.2/js/bootstrap.min.js"></script>
+	<script type="text/javascript" src="colorpicker/js/colorpicker.js"></script>
+    <script type="text/javascript" src="colorpicker/js/eye.js"></script>
+    <script type="text/javascript" src="colorpicker/js/utils.js"></script>
 
 <script>
 	$(document).ready(function(){
 
+		
 		$( ".build-div" ).draggable({
 			revert: true,
 			helper: "clone"
@@ -48,18 +62,79 @@
 		$("#droppable").droppable({
 			//accept:"#draggable",
 			activeClass:"ui-state-hover",
+			accept:function(el){return el.hasClass("build-div")},
 			drop:function(event, ui){
-				$(this).html('<div class="build-main"></div>');
+				$(this).html('<div class="build-main" style="border: 1px solid #0000ff;"></div>');
 				$(".build-main").resizable({
+					containment: $(this)
+				}).draggable({
 					containment: $(this)
 				});
 
-				console.log(event);
-				console.log(ui);
+				//console.log(event);
+				//console.log(ui);
 			}
 		});
+		
+		$(".build-border").slider({
+		  range: "min",
+		  min: 1,
+		  max: 10,
+		  value: 1,
+		  slide: function( event, ui ) {
+			$( ".build-main" ).css( "border-width", ui.value );
+		  }
+		});
+		//$( "#amount" ).val( "$" + $( "#slider-range" ).slider( "value" ));
 
+		
+		
+		
+			$('#colorSelector').ColorPicker({
+	color: '#0000ff',
+	onShow: function (colpkr) {
+		$(colpkr).fadeIn(500);
+		return false;
+	},
+	onHide: function (colpkr) {
+		$(colpkr).fadeOut(500);
+		return false;
+	},
+	onChange: function (hsb, hex, rgb) {
+		$('#colorSelector div').css('backgroundColor', '#' + hex);
+		$('.build-main').css('border-color', '#' + hex);
+	}
+	
+
+});
+		
+		
+		
+			
+	$("#parse").click(function(){
+		$.ajax({
+			url: 'parse.php',
+			method: 'post',
+			data: "html="+$("#droppable").html(),
+			success: function(d){
+				$(".result").html(d);
+			}
+		});
 	});
+	});
+	
+
+	
+	function getText(){
+		
+			var text = $("textarea[name=text]").val();
+			console.log(text);
+			$(".build-main").html('<div class="build-addtext" style="white-space:pre">'+text+'</div>');
+			$(".build-addtext").draggable({
+				containment: $(this).parent()
+			})
+		
+	}
 </script>
 </body>
 </html>
