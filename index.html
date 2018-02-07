@@ -30,6 +30,10 @@
 					<div class="build-border"></div>
 				</div>
 				<div class="block">
+                    <div class="build-work-area">Скругление рамки:</div><b><span class="build-border-radius-width"></span></b><br>
+					<div class="build-border-radius"></div>
+				</div>
+				<div class="block">
 					<div class="build-work-area">Цвет рамки:</div>
 					<div id="colorSelector"><div style="background-color: #0000ff"></div></div>
 				</div>
@@ -94,7 +98,17 @@
 		  }
 		});
 		//$( "#amount" ).val( "$" + $( "#slider-range" ).slider( "value" ));
-
+		
+		$(".build-border-radius").slider({
+		  range: "min",
+		  min: 0,
+		  max: 100,
+		  value: 0,
+		  slide: function( event, ui ) {
+			$( ".build-main" ).css( "border-radius", ui.value );
+			$( ".build-border-radius-width" ).text( ui.value+"%" );
+		  }
+		});
 		
 		
 		
