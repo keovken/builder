@@ -22,13 +22,20 @@
 	<div class="row">
 		<div class="col-md-6 in" style="border: 2px solid #808080">
 			<div class="build-data">
-				<form>
-					<div class="build-div" style="z-index: 99;">DIV</div>
+				<div class="block">
+					<div class="build-work-area">Рабочая область:</div> <div class="build-div" style="z-index: 99;"><img src="images/div.png" /></div>
+				</div>
+				<div class="block">
+                    <div class="build-work-area">Толщина рамки:</div><b><span class="build-border-width">1</span>px</b>
 					<div class="build-border"></div>
+				</div>
+				<div class="block">
+					<div class="build-work-area">Цвет рамки:</div>
 					<div id="colorSelector"><div style="background-color: #0000ff"></div></div>
-					<div class="build-text">TEXT: <textarea type="text" name="text"></textarea> <button id="build-text" onclick="getText(); return false;">Go!</button></div><br />
-
-				</form>
+				</div>
+				<div class="block">
+					<div class="build-text"><span class="textarea-title">Текст:</span> <textarea name="text"></textarea> <button id="build-text" onclick="getText(); return false;">Go!</button></div><br />
+				</div>
 			</div>
 		</div>
 		<div class="col-md-6 out" id="droppable" style="border: 2px solid #808080">
@@ -78,11 +85,12 @@
 		
 		$(".build-border").slider({
 		  range: "min",
-		  min: 1,
-		  max: 10,
+		  min: 0,
+		  max: 20,
 		  value: 1,
 		  slide: function( event, ui ) {
 			$( ".build-main" ).css( "border-width", ui.value );
+			$( ".build-border-width" ).text( ui.value );
 		  }
 		});
 		//$( "#amount" ).val( "$" + $( "#slider-range" ).slider( "value" ));
@@ -118,6 +126,7 @@
 			data: "html="+$("#droppable").html(),
 			success: function(d){
 				$(".result").html(d);
+				$(".container").append('<a href="result.html" target="_blank">RESULT</a>');
 			}
 		});
 	});

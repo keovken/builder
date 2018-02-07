@@ -125,6 +125,7 @@ h1 {
 	width: 36px;
 	height: 36px;
 	background: url(../images/select.png);
+	margin-top: 20px;
 }
 #colorSelector div {
 	position: absolute;

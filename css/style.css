@@ -3,7 +3,22 @@
     height: 50px;
     
 }
-
+.build-work-area{
+	float: left;
+	font-weight: bold;
+	padding-right: 10px;
+}
+.build-border{width: 50%;}
 .in, .out{
     min-height: 600px;
 }
+.block{padding: 5px;}
+.textarea-title{
+	float: left;
+    font-weight: bold;
+    padding-right: 5px;
+}
+#build-text{
+    position: relative;
+    top: -8px;
+	}
